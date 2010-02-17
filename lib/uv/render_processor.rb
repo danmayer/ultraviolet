@@ -75,6 +75,7 @@ module Uv
         print opt["end"] if opt
         stack.pop
       end
+      print "</span>" #end code span
     end
     
     def open_line
@@ -92,11 +93,13 @@ module Uv
         print escape(@line[@position..-1].gsub(/\n|\r/, ''))
         close_line
         print @render_options["line"]["end"]
+        print "</span>" #end whole line span
         print "\n" 
       end
       @position = 0
       @line_number += 1
       @line = line
+      print "<span id='whole-code-line-#{@line_number}'>"
       print @render_options["line"]["begin"]
       if @line_numbers
         print @render_options["line-numbers"]["begin"] 
@@ -104,6 +107,7 @@ module Uv
         print @render_options["line-numbers"]["end"] 
         print " "
       end
+      print "<span id='only-code-line-#{@line_number}'>"
       open_line
     end
     
@@ -116,6 +120,8 @@ module Uv
           @stack.pop
         end
         print @render_options["line"]["end"]
+        print "</span>" #end code span
+        print "</span>" #end whole line span
         print "\n"
       end
       #         opt = options @stack
